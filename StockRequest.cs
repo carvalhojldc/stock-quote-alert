@@ -4,7 +4,7 @@ namespace StockRequestInterface
 {
     internal class StockRequest
     {
-        private string apiKey = null;
+        private string apiKey;
         private readonly HttpClient httpClient = new HttpClient();
 
         public StockRequest()
