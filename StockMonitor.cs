@@ -40,6 +40,8 @@ namespace StockMonitorInterface
                 this.currentPrice = this.stockRequest.GetPrice(this.stockName);
                 Console.Write($@" * Current price {this.currentPrice}: ");
 
+                // TODO: Send email in async mode
+
                 if (this.currentPrice >= this.priceToSell)
                 {
                     if (quoteStatus != QuoteStatus.Sell)
@@ -76,8 +78,6 @@ namespace StockMonitorInterface
                 {
                     quoteStatus = QuoteStatus.Stay;
                 }
-
-                Console.WriteLine(".");
 
                 Thread.Sleep(15000);
             }

@@ -1,5 +1,4 @@
 ﻿using StockMonitorInterface;
-
 internal class Program
 {
     private static int Main(string[] args)
@@ -18,6 +17,7 @@ internal class Program
 
         var threadMonitor = new Thread(stockMonitor.Monitor);
         threadMonitor.Start();
+
 
         return 0;
     }
