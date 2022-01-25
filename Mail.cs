@@ -39,7 +39,7 @@ namespace MailInterface
             }
         }
 
-        public void Send(string subject, string body)
+        public async Task Send(string subject, string body)
         {
             var fromAddress = new MailAddress(this.fromEmail, "Stock Quote Systems");
             var toAddress = new MailAddress(this.toEmail, "");
@@ -61,7 +61,7 @@ namespace MailInterface
             };
             try
             {
-                smtp.Send(message);
+                await smtp.SendMailAsync(message);
             }
             catch (Exception ex)
             {

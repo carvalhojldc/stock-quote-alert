@@ -38,9 +38,7 @@ namespace StockMonitorInterface
             while (true)
             {
                 this.currentPrice = this.stockRequest.GetPrice(this.stockName);
-                Console.Write($@" * Current price {this.currentPrice}: ");
-
-                // TODO: Send email in async mode
+                Console.Write($@" * Current price {this.currentPrice}" + "\n");
 
                 if (this.currentPrice >= this.priceToSell)
                 {
@@ -54,7 +52,7 @@ namespace StockMonitorInterface
                             "Stock quote: R$ " + this.currentPrice + ".\n\n" +
                             "Att,\nStock Quote Alert.";
 
-                        Console.WriteLine(subject);
+                        Console.WriteLine("\t" + subject);
                         this.mail.Send(subject, msg);
                     }
                 }
@@ -70,13 +68,14 @@ namespace StockMonitorInterface
                             "Stock quote: R$ " + this.currentPrice + ".\n\n" +
                             "Att,\nStock Quote Alert.";
 
-                        Console.WriteLine(subject);
+                        Console.WriteLine("\t" + subject);
                         this.mail.Send(subject, msg);
                     }
                 }
                 else
                 {
                     quoteStatus = QuoteStatus.Stay;
+                    Console.WriteLine("\t" + "Stay");
                 }
 
                 Thread.Sleep(15000);
