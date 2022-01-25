@@ -9,7 +9,9 @@ This project checks the stock price (from [Forex API](https://fcsapi.com/))  and
 Configure the files below in the same directory as the executable:
 
 * **api.config**: Access key of [Forex API](https://fcsapi.com/) 
-* **smtp.config**: SNMT server configuration to send notifications
+* **mail.config**: Email and SMTP server configuration to send notifications
+
+Templates are in the **config** folder.
 
 Run the binary:
 
