@@ -1,35 +1,50 @@
-﻿namespace StockRequestInterface
+﻿using Newtonsoft.Json;
+
+namespace StockRequestInterface
 {
     internal class StockRequest
     {
-        /*
-         * Using API from https://www.alphavantage.co/
-         *
-         * =========================================================================
-         * Question from https://www.alphavantage.co/support/#api-key
-         *
-         * Are there usage/frequency limits for the API service?
-         *
-         * We are pleased to provide free stock API service for our global community \
-         * of users for up to 5 API requests per minute and 500 requests per day. \
-         * If you would like to target a larger API call volume, please \
-         * visit premium membership.
-         */
+        private readonly string apiKey = "";
+        private readonly HttpClient httpClient = new HttpClient();
 
         public StockRequest()
         {
-
+            // TODO: Read API key from configs
         }
 
-        public float GetPrice(string stockName)
+        private async Task<string> GetStockInfo(string stockName)
         {
-            /*
-             * Quote Endpoint Trending
-             *
-             * A lightweight alternative to the time series APIs, this service returns the
-             * price and volume information for a token of your choice
-             */
-            return 12;
+            var stringTask =
+                httpClient.GetStringAsync("https://" +
+                @$"fcsapi.com/api-v3/stock/latest?country=Brazil&symbol={stockName}&access_key={this.apiKey}");
+            return await stringTask;
+        }
+
+        public double GetPrice(string stockName)
+        {
+            Task<string> result = GetStockInfo(stockName);
+            string stockInfo = result.Result;
+
+            try
+            {
+                var data = JsonConvert.DeserializeObject<dynamic>(stockInfo);
+                var bovespaInfo = data["response"][0];
+                if (bovespaInfo != null)
+                {
+                    return Convert.ToDouble(bovespaInfo["c"]);
+                }
+                else
+                {
+                    Console.WriteLine("\tERROR in server response");
+                    return 0;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\tERROR " + ex.Message);
+                return 0;
+            }
         }
     }
 }
