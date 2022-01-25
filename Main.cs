@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using StockMonitorInterface;
 
 internal class Program
 {
@@ -11,6 +12,14 @@ internal class Program
         }
 
         Console.WriteLine("\tStarting 'Stock Quote Alert'");
+
+        var stockMonitor = new StockMonitor(
+                                    args[0],
+                                    Convert.ToDouble(args[1]),
+                                    Convert.ToDouble(args[2]));
+
+        var threadMonitor = new Thread(stockMonitor.Monitor);
+        threadMonitor.Start();
 
         return 0;
     }
