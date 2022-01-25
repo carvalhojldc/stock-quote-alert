@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StockRequestInterface;
+﻿using StockRequestInterface;
 
 namespace StockMonitorInterface
 {
@@ -16,8 +11,8 @@ namespace StockMonitorInterface
 
         public StockMonitor(string stockName, double priceToSell, double priceToBuy)
         {
-            Console.WriteLine("\nStock name: " + stockName+ 
-                                "\nQuote to \n\tsell: " + priceToSell + 
+            Console.WriteLine("\nStock name: " + stockName +
+                                "\nQuote to \n\tsell: " + priceToSell +
                                 "\n\tbuy: " + priceToBuy + "\n");
 
             this.priceToSell = priceToSell;

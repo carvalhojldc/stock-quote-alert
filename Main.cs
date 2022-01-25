@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using StockMonitorInterface;
+﻿using StockMonitorInterface;
 
 internal class Program
 {
