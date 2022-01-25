@@ -4,12 +4,31 @@ namespace StockRequestInterface
 {
     internal class StockRequest
     {
-        private readonly string apiKey = "";
+        private string apiKey = null;
         private readonly HttpClient httpClient = new HttpClient();
 
         public StockRequest()
         {
-            // TODO: Read API key from configs
+            try
+            {
+                string text = File.ReadAllText(@"api.config");
+                var data = JsonConvert.DeserializeObject<dynamic>(text);
+                if (data != null)
+                {
+                    this.apiKey = data.SelectToken("key");
+                }
+
+                if (this.apiKey == null)
+                {
+                    Console.WriteLine("\tERROR API config not set");
+                    Environment.Exit(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\tERROR " + ex.Message);
+                Environment.Exit(1);
+            }
         }
 
         private async Task<string> GetStockInfo(string stockName)
@@ -28,23 +47,25 @@ namespace StockRequestInterface
             try
             {
                 var data = JsonConvert.DeserializeObject<dynamic>(stockInfo);
-                var bovespaInfo = data["response"][0];
-                if (bovespaInfo != null)
+                if (data != null)
                 {
-                    return Convert.ToDouble(bovespaInfo["c"]);
+                    var bovespaInfo = data["response"][0];
+                    if (bovespaInfo != null)
+                    {
+                        return Convert.ToDouble(bovespaInfo["c"]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tERROR in server response");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("\tERROR in server response");
-                    return 0;
-                }
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine("\tERROR " + ex.Message);
-                return 0;
             }
+
+            return 0;
         }
     }
 }
